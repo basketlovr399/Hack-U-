@@ -1,6 +1,8 @@
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 
 public class jdbc {
 	public static void main(String args[]) {
@@ -10,19 +12,34 @@ public class jdbc {
 		String pass = "パスワード"; //パスワード
 		String db = "DB名"; //データベース名
 		String url = "URL"
-		
-		
+		Connection con = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		String sql = "select * from user"
 		
 		try {
 			Class.forName("com.mysql.cj.jdbc.Driver");
 			Connection con = DriverManager.getConnection(url, user, pass);
-			System.out.println("接続成功です！");
+// 			System.out.println("接続成功です！");
+			
+			pstmt = con.prepareStatement(sql);
+			
+// 			SQL文の実行
+			rs = pstmt.executeQuery(sql);
+			while(rs.next()){
+				System.out.println(rs.getString("vename"));
+			}
+				
 		}catch(SQLException ex) {
 			System.out.println("SQLException: " + ex.getMessage());
 			System.out.println("SQLState: " + ex.getSQLState());
 			System.out.println("VenderError: " + ex.getErrorCode());
 		}catch(Exception e) {
 			e.printStackTrace();
+		}finally{
+			if(rs != null){
+				rs.close();
+			}
 		}
 	}
 }
