@@ -15,5 +15,6 @@ abstract class Calories {
     }
   }
   
-  void show_calories();
+  void show_calories(){
+    for (i = 0; i
 }
