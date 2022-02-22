@@ -7,7 +7,9 @@ import java.util.Scanner;
 
 public class jdbc {
 	public static void main(String args[]) {
+		
 		Scanner sc = new Scanner(Systemn.in);
+		
 		//接続に必要なデータ
 		String server = "サーバー"; //Mysqlサーバー
 		String user = "ユーザー名"; //ユーザー名
@@ -17,8 +19,13 @@ public class jdbc {
 		Connection con = null;
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
-		String sql = "select * from user"
+		String sql = "select * from user";
+		Int total = 0;
 		
+		//カロリー計算用のリスト
+		Int foodlist[];
+		
+		String food = sc.next();
 		try {
 			Class.forName("com.mysql.cj.jdbc.Driver");
 			Connection con = DriverManager.getConnection(url, user, pass);
@@ -29,7 +36,13 @@ public class jdbc {
 // 			SQL文の実行
 			rs = pstmt.executeQuery(sql);
 			while(rs.next()){
-				System.out.println(rs.getString("vename"));
+				if (food.equals(rs.getString("vename"))){
+					fooodlist.add(rs.getInt("calories));
+					
+				}
+				for (int i = 0; i <= foodlist.length; i++){
+					total += foodlist[i]
+				}
 			}
 				
 		}catch(SQLException ex) {
@@ -38,10 +51,6 @@ public class jdbc {
 			System.out.println("VenderError: " + ex.getErrorCode());
 		}catch(Exception e) {
 			e.printStackTrace();
-		}finally{
-			if(rs != null){
-				rs.close();
-			}
 		}
 	}
 }
