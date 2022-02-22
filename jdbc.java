@@ -8,7 +8,7 @@ import java.util.Scanner;
 public class jdbc extends Calculator{
 	public static void main(String args[]) {
 		
-		Scanner sc = new Scanner(Systemn.in);
+		Scanner sc = new Scanner(System.in);
 		
 		//接続に必要なデータ
 		String server = "サーバー"; //Mysqlサーバー
@@ -19,31 +19,53 @@ public class jdbc extends Calculator{
 		Connection con = null;
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
-		String sql = "select * from user";
+		
 		Int total = 0;
 		
 		//カロリー計算用のリスト
 		Int foodlist[];
 		
-		String food = sc.next();
+		//食べ物リスト
+		String foods[];
+		
 		try {
-			Class.forName("com.mysql.cj.jdbc.Driver");
-			Connection con = DriverManager.getConnection(url, user, pass);
-// 			System.out.println("接続成功です！");
-			
-			pstmt = con.prepareStatement(sql);
-			
-// 			SQL文の実行
-			rs = pstmt.executeQuery(sql);
-			while(rs.next()){
-				if (food.equals(rs.getString("vename"))){
-					fooodlist.add(rs.getInt("calories));
+			do{
+				System.out.print('食べ物を入力してください');
+				String food = sc.next();
+				String sql = "select * from user where vename = " + food;
+				
+				//接続
+				Class.forName("com.mysql.cj.jdbc.Driver");
+				Connection con = DriverManager.getConnection(url, user, pass);
+	         
+
+				pstmt = con.prepareStatement(sql);
+
+	                         //SQL文の実行
+				rs = pstmt.executeQuery(sql);
+				rs.next();
+				
+				//値を取得
+				food_calories = rs.getInt('calories');
+				food_name = rs.getString('vename');
+				
+				//リストに追加
+				foodlist.add(food_calories);
+				foods.add(food_name);
+				
+				//0以外はループ終了
+				System.out.print('合計を出力しますか？');
+				total = sc.nextInt();	
 					
-				}
-				for (int i = 0; i <= foodlist.length; i++){
-					total += foodlist[i]
-				}
-			}
+			}while(total == 0);
+			
+			//抽象クラスのメソッドを呼び出す
+			Calculator calc = new Calculator();
+			
+			//表示
+			System.out.print(calc.sum_calories(foodlist));
+			calc.show_food(foods);
+				
 				
 		}catch(SQLException ex) {
 			System.out.println("SQLException: " + ex.getMessage());
