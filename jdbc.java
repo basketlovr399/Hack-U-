@@ -5,11 +5,11 @@ import java.sql.SQLException;
 public class jdbc {
 	public static void main(String args[]) {
 		//接続に必要なデータ
-		String server = "localhost:3307"; //Mysqlサーバー
-		String user = "root"; //ユーザー名
-		String pass = "Fang1373"; //パスワード
-		String db = "hack_u"; //データベース名
-		String url = "jdbc:mysql://" + server + "/" + db; //JDBCのURL
+		String server = "サーバー"; //Mysqlサーバー
+		String user = "ユーザー名"; //ユーザー名
+		String pass = "パスワード"; //パスワード
+		String db = "DB名"; //データベース名
+		String url = "URL"
 		
 		
 		
