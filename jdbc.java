@@ -3,9 +3,11 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.util.Scanner;
 
 public class jdbc {
 	public static void main(String args[]) {
+		Scanner sc = new Scanner(Systemn.in);
 		//接続に必要なデータ
 		String server = "サーバー"; //Mysqlサーバー
 		String user = "ユーザー名"; //ユーザー名
