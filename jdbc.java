@@ -30,32 +30,60 @@ public class jdbc extends Calculator{
 		
 		try {
 			do{
-				System.out.print('食べ物を入力してください');
-				String food = sc.next();
-				String sql = "select * from user where vename = " + food;
+				System.out.print('食べ物か数値を入力してください');
+				Object food = sc.next();
 				
-				//接続
-				Class.forName("com.mysql.cj.jdbc.Driver");
-				Connection con = DriverManager.getConnection(url, user, pass);
-	         
+				if (food instanceof String){
+					String sql = "select * from user where vename = " + food;
 
-				pstmt = con.prepareStatement(sql);
+					//接続
+					Class.forName("com.mysql.cj.jdbc.Driver");
+					Connection con = DriverManager.getConnection(url, user, pass);
 
-	                         //SQL文の実行
-				rs = pstmt.executeQuery(sql);
-				rs.next();
-				
-				//値を取得
-				food_calories = rs.getInt('calories');
-				food_name = rs.getString('vename');
-				
-				//リストに追加
-				foodlist.add(food_calories);
-				foods.add(food_name);
-				
-				//0以外はループ終了
-				System.out.print('合計を出力しますか？');
-				total = sc.nextInt();	
+
+					pstmt = con.prepareStatement(sql);
+
+					 //SQL文の実行
+					rs = pstmt.executeQuery(sql);
+					rs.next();
+
+					//値を取得
+					Int food_calories = rs.getInt('calories');
+					String food_name = rs.getString('vename');
+
+					//リストに追加
+					foodlist.add(food_calories);
+					foods.add(food_name);
+
+					//0以外はループ終了
+					System.out.print('合計を出力しますか？');
+					total = sc.nextInt();	
+				}else{
+					//入力で変数の中身が値の時はその値以下の食べ物を表示
+					String sql = "select * from user where calories = " + food;
+
+					//接続
+					Class.forName("com.mysql.cj.jdbc.Driver");
+					Connection con = DriverManager.getConnection(url, user, pass);
+
+
+					pstmt = con.prepareStatement(sql);
+
+					 //SQL文の実行
+					rs = pstmt.executeQuery(sql);
+					
+					while(rs.next()){
+						Int food_calories = rs.getInt('calories');
+						if(cal <= food){
+							
+							String food_name = rs.getString('vename');
+
+							//リストに追加
+							foodlist.add(food_calories);
+							foods.add(food_name);
+						}
+					}
+
 					
 			}while(total == 0);
 			
